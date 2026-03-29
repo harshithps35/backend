@@ -9,7 +9,12 @@ connectDB();
 const app = express();
 
 // More flexible CORS handling: allow listed dev origins and support requests without an Origin header
-const whitelist = ['http://localhost:5173', 'http://localhost:3000'];
+// Add any front-end origins that need access here
+const whitelist = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://under-water-prediction-frontend2.onrender.com'
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // allow server-to-server or curl requests
