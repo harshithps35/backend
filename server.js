@@ -8,7 +8,20 @@ connectDB();
 
 const app = express();
 
-app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:3000'], credentials: true }));
+// More flexible CORS handling: allow listed dev origins and support requests without an Origin header
+const whitelist = ['http://localhost:5173', 'http://localhost:3000'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // allow server-to-server or curl requests
+    if (process.env.NODE_ENV === 'development' || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
