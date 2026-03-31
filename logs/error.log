@@ -218,3 +218,69 @@
     at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
 [2026-03-31T05:48:43.526Z] ❌ MongoDB Error: Mongod internal error (fassert() failure\n\n"})
 [2026-03-31T05:48:43.535Z] Server crashed with code 1
+[2026-03-31T05:48:49.154Z] Starting the MongoMemoryServer Instance failed, enable debug log for more information. Error:
+ StdoutInstanceError: Mongod internal error (fassert() failure\n\n"})
+    at MongoInstance.checkErrorInLine (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:425:58)
+    at MongoInstance.stdoutHandler (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:365:14)
+    at Socket.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+    at Readable.push (node:internal/streams/readable:395:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2026-03-31T05:48:49.155Z] ❌ MongoDB Error: Mongod internal error (fassert() failure\n\n"})
+[2026-03-31T05:48:49.165Z] Server crashed with code 1
+[2026-03-31T05:48:54.755Z] Starting the MongoMemoryServer Instance failed, enable debug log for more information. Error:
+ StdoutInstanceError: Mongod internal error (fassert() failure\n\n"})
+    at MongoInstance.checkErrorInLine (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:425:58)
+    at MongoInstance.stdoutHandler (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:365:14)
+    at Socket.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+    at Readable.push (node:internal/streams/readable:395:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2026-03-31T05:48:54.756Z] ❌ MongoDB Error: Mongod internal error (fassert() failure\n\n"})
+[2026-03-31T05:48:54.768Z] Server crashed with code 1
+[2026-03-31T05:49:00.367Z] Starting the MongoMemoryServer Instance failed, enable debug log for more information. Error:
+ StdoutInstanceError: Mongod internal error (fassert() failure\n\n"})
+    at MongoInstance.checkErrorInLine (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:425:58)
+    at MongoInstance.stdoutHandler (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:365:14)
+    at Socket.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+    at Readable.push (node:internal/streams/readable:395:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2026-03-31T05:49:00.367Z] ❌ MongoDB Error: Mongod internal error (fassert() failure\n\n"})
+[2026-03-31T05:49:00.376Z] Server crashed with code 1
+[2026-03-31T05:49:05.978Z] Starting the MongoMemoryServer Instance failed, enable debug log for more information. Error:
+ StdoutInstanceError: Mongod internal error (fassert() failure\n\n"})
+    at MongoInstance.checkErrorInLine (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:425:58)
+    at MongoInstance.stdoutHandler (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:365:14)
+    at Socket.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+    at Readable.push (node:internal/streams/readable:395:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2026-03-31T05:49:05.978Z] ❌ MongoDB Error: Mongod internal error (fassert() failure\n\n"})
+[2026-03-31T05:49:05.988Z] Server crashed with code 1
+[2026-03-31T05:49:11.592Z] Starting the MongoMemoryServer Instance failed, enable debug log for more information. Error:
+ StdoutInstanceError: Mongod internal error (fassert() failure\n\n"})
+    at MongoInstance.checkErrorInLine (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:425:58)
+    at MongoInstance.stdoutHandler (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:365:14)
+    at Socket.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+    at Readable.push (node:internal/streams/readable:395:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2026-03-31T05:49:11.592Z] ❌ MongoDB Error: Mongod internal error (fassert() failure\n\n"})
+[2026-03-31T05:49:11.602Z] Server crashed with code 1
+[2026-03-31T05:49:17.187Z] Starting the MongoMemoryServer Instance failed, enable debug log for more information. Error:
+ StdoutInstanceError: Mongod internal error (fassert() failure\n\n"})
+    at MongoInstance.checkErrorInLine (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:425:58)
+    at MongoInstance.stdoutHandler (C:\Users\harsh\Documents\GitHub\backend\node_modules\mongodb-memory-server-core\lib\util\MongoInstance.js:365:14)
+    at Socket.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+    at Readable.push (node:internal/streams/readable:395:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2026-03-31T05:49:17.188Z] ❌ MongoDB Error: Mongod internal error (fassert() failure\n\n"})
+[2026-03-31T05:49:17.197Z] Server crashed with code 1
