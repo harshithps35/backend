@@ -2,49 +2,60 @@ const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let mongod;
+let isConnected = false;
 
-const connectDBWithRetry = async (attempt = 1, maxAttempts = 5) => {
+const connectDBWithRetry = async (attempt = 1, maxAttempts = 3) => {
   try {
-    // Use environment MONGO_URI if provided (real MongoDB), otherwise use in-memory
     let uri = process.env.MONGO_URI;
 
-    if (!uri || uri.includes('127.0.0.1')) {
+    // Try in-memory MongoDB only if MONGO_URI is default (localhost)
+    if (uri && uri.includes('localhost')) {
       try {
-        // Start in-memory MongoDB with more conservative settings
-        console.log(`📦 Attempting to start in-memory MongoDB (attempt ${attempt}/${maxAttempts})...`);
+        console.log(`📦 Attempting in-memory MongoDB (attempt ${attempt}/${maxAttempts})...`);
         mongod = await MongoMemoryServer.create({
           instance: {
-            port: 0, // random port
+            port: 0,
           },
           binary: {
-            skipMD5: true, // Skip MD5 check for faster startup
+            skipMD5: true,
+          },
+          autoStart: true,
+          spawn: {
+            stdio: 'pipe'
           }
         });
         uri = mongod.getUri();
-        console.log('📦 Using in-memory MongoDB (no MongoDB installation required)');
+        console.log('✅ In-memory MongoDB started');
       } catch (mongoError) {
         if (attempt < maxAttempts) {
-          console.warn(`⚠️  MongoDB startup failed: ${mongoError.message}`);
-          console.log(`🔄 Retrying in 2 seconds...`);
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          console.warn(`⚠️  MongoDB in-memory startup failed (attempt ${attempt}): ${mongoError.message}`);
+          console.log(`🔄 Retrying in 3 seconds...`);
+          await new Promise(resolve => setTimeout(resolve, 3000));
           return connectDBWithRetry(attempt + 1, maxAttempts);
         } else {
-          throw new Error(`Failed to start MongoDB after ${maxAttempts} attempts: ${mongoError.message}`);
+          console.warn(`⚠️  Could not start in-memory MongoDB after ${maxAttempts} attempts. Using connection string from MONGO_URI.`);
+          console.log('📝 To use MongoDB Atlas: Update MONGO_URI in .env');
         }
       }
     }
 
-    const conn = await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 10000,
-    });
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-
-    // Auto-seed data on first run
-    await seedInitialData();
+    try {
+      const conn = await mongoose.connect(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        serverSelectionTimeoutMS: 5000,
+        connectTimeoutMS: 10000,
+      });
+      console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+      isConnected = true;
+      await seedInitialData();
+    } catch (connectError) {
+      console.warn(`⚠️  MongoDB connection failed: ${connectError.message}`);
+      console.log('📝 You can still use the API without persistent DB (in-memory only)');
+      isConnected = false;
+    }
   } catch (error) {
-    console.error(`❌ MongoDB Error: ${error.message}`);
+    console.error(`❌ Error: ${error.message}`);
     process.exit(1);
   }
 };

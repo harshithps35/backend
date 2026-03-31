@@ -1,0 +1,8 @@
+[2026-03-31T07:04:58.365Z] 📦 Attempting in-memory MongoDB (attempt 1/3)...
+[2026-03-31T07:04:58.410Z] 🚀 AquaSense Server running on http://localhost:5000
+[2026-03-31T07:04:58.411Z] 📡 API endpoints: /api/auth | /api/sensors | /api/zones | /api/predictions
+[2026-03-31T07:04:59.067Z] ✅ In-memory MongoDB started
+[2026-03-31T07:04:59.092Z] ✅ MongoDB Connected: 127.0.0.1
+[2026-03-31T07:04:59.111Z] 🌱 Seeding initial data...
+[2026-03-31T07:04:59.570Z] 👤 Demo user created: test@aquasense.com / password123
+[2026-03-31T07:04:59.571Z] ✅ Seeded: 8 sensors, 6 zones
