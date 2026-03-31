@@ -4,7 +4,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 let mongod;
 let isConnected = false;
 
-const connectDBWithRetry = async (attempt = 1, maxAttempts = 3) => {
+const connectDBWithRetry = async (attempt = 1, maxAttempts = 1) => {
   try {
     let uri = process.env.MONGO_URI;
 
@@ -40,34 +40,41 @@ const connectDBWithRetry = async (attempt = 1, maxAttempts = 3) => {
     }
 
     try {
-      const conn = await mongoose.connect(uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        serverSelectionTimeoutMS: 5000,
-        connectTimeoutMS: 10000,
-      });
+      const conn = await Promise.race([
+        mongoose.connect(uri, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          serverSelectionTimeoutMS: 3000,
+          connectTimeoutMS: 3000,
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('MongoDB connection timeout after 4s')), 4000)
+        )
+      ]);
       console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
       isConnected = true;
       await seedInitialData();
     } catch (connectError) {
       console.warn(`⚠️  MongoDB connection failed: ${connectError.message}`);
-      console.log('📝 You can still use the API without persistent DB (in-memory only)');
+      console.log('📝 API will run without persistent DB');
       isConnected = false;
+      // Don't throw - let app start
     }
   } catch (error) {
     console.error(`❌ Error: ${error.message}`);
-    process.exit(1);
+    console.log('⚠️  Continuing without MongoDB...');
   }
 };
 
 const connectDB = () => connectDBWithRetry();
 
 const seedInitialData = async () => {
-  const Sensor = require('../models/Sensor');
-  const Zone = require('../models/Zone');
-  const User = require('../models/User');
+  try {
+    const Sensor = require('../models/Sensor');
+    const Zone = require('../models/Zone');
+    const User = require('../models/User');
 
-  const existingSensors = await Sensor.countDocuments();
+    const existingSensors = await Sensor.countDocuments();
   if (existingSensors > 0) return; // Already seeded
 
   console.log('🌱 Seeding initial data...');
@@ -122,6 +129,9 @@ const seedInitialData = async () => {
   }
 
   console.log(`✅ Seeded: ${sensors.length} sensors, ${zones.length} zones`);
+  } catch (seedError) {
+    console.warn(`⚠️  Seeding failed: ${seedError.message}`);
+  }
 };
 
 module.exports = connectDB;
