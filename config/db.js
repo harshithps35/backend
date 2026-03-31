@@ -3,19 +3,42 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let mongod;
 
-const connectDB = async () => {
+const connectDBWithRetry = async (attempt = 1, maxAttempts = 5) => {
   try {
     // Use environment MONGO_URI if provided (real MongoDB), otherwise use in-memory
     let uri = process.env.MONGO_URI;
 
     if (!uri || uri.includes('127.0.0.1')) {
-      // Start in-memory MongoDB
-      mongod = await MongoMemoryServer.create();
-      uri = mongod.getUri();
-      console.log('📦 Using in-memory MongoDB (no MongoDB installation required)');
+      try {
+        // Start in-memory MongoDB with more conservative settings
+        console.log(`📦 Attempting to start in-memory MongoDB (attempt ${attempt}/${maxAttempts})...`);
+        mongod = await MongoMemoryServer.create({
+          instance: {
+            port: 0, // random port
+          },
+          binary: {
+            skipMD5: true, // Skip MD5 check for faster startup
+          }
+        });
+        uri = mongod.getUri();
+        console.log('📦 Using in-memory MongoDB (no MongoDB installation required)');
+      } catch (mongoError) {
+        if (attempt < maxAttempts) {
+          console.warn(`⚠️  MongoDB startup failed: ${mongoError.message}`);
+          console.log(`🔄 Retrying in 2 seconds...`);
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          return connectDBWithRetry(attempt + 1, maxAttempts);
+        } else {
+          throw new Error(`Failed to start MongoDB after ${maxAttempts} attempts: ${mongoError.message}`);
+        }
+      }
     }
 
-    const conn = await mongoose.connect(uri);
+    const conn = await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 10000,
+    });
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
 
     // Auto-seed data on first run
@@ -25,6 +48,8 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+const connectDB = () => connectDBWithRetry();
 
 const seedInitialData = async () => {
   const Sensor = require('../models/Sensor');
